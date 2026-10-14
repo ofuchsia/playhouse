@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script id="lumi-getcssvar">
+window.getCssVar = window.getCssVar || function(name) {
+  try {
+    return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+  } catch (e) { return ''; }
+};
+</script>
+
+<style id="lumi-runtime">
+/* luminous.css */
+@import url('https://fonts.googleapis.com/css2?family=Google+Sans+Flex:ital,wght@0,300..700;1,300..700&family=Google+Sans+Code:ital,wght,MONO@0,300..700,0..1;1,300..700,0..1&display=swap');
+
+:root {
+  --body-bg: #0f0f0f;
+  --ff-sans: 'Google Sans Flex', 'Google Sans Text', 'Google Sans', sans-serif;
+  --ff-mono: 'Google Sans Code', 'Google Sans Mono', monospace;
+
+  --lumi-sys-spacing--xxs: 2px;
+  --lumi-sys-spacing--xs: 4px;
+  --lumi-sys-spacing--s: 8px;
+  --lumi-sys-spacing--m: 12px;
+  --lumi-sys-spacing--l: 16px;
+  --lumi-sys-spacing--xl: 20px;
+  --lumi-sys-spacing--xxl: 24px;
+  --lumi-sys-spacing--3xl: 28px;
+  --lumi-sys-spacing--4xl: 36px;
+
+  --lumi-sys-shape--none: 0px;
+  --lumi-sys-shape--small: 8px;
+  --lumi-sys-shape--medium: 12px;
+  --lumi-sys-shape--large: 16px;
+  --lumi-sys-shape--large-max: 24px;
+  --lumi-sys-shape--full: 999px;
+
+  --lumi-sys-elevation--level1: 0 0 20px 0 rgba(0, 0, 0, 0.28);
+  --lumi-sys-elevation--level2: 0 0 20px 0 rgba(0, 0, 0, 0.40);
+
+  --lumi-sys-color--surface: #0f0f0f;
+  --lumi-sys-color--surface-dim: #141414;
+  --lumi-sys-color--surface-bright: #1c1c1c;
+  --lumi-sys-color--surface-background: #0f0f0f;
+  --lumi-sys-color--surface-container: #141414;
+  --lumi-sys-color--surface-container-high: #1c1c1c;
+  --lumi-sys-color--on-surface: #e0e0e0;
+  --lumi-sys-color--on-surface-default: #e0e0e0;
+  --lumi-sys-color--on-surface-variant: rgba(255, 255, 255, 0.55);
+  --lumi-sys-color--on-surface-low: rgba(255, 255, 255, 0.12);
+  --lumi-sys-color--positive: #0ebc5f;
+  --lumi-sys-color--error: #ff4c45;
+  --lumi-sys-color--accent: #1f3b9b;
+  --lumi-sys-color--accent-container: #192967;
+  --lumi-sys-color--accent-fixed: #3186ff;
+  --lumi-sys-color--primary: #9dd2ff;
+  --lumi-sys-color--on-primary: #192967;
+  --lumi-sys-color--black: #000000;
+  --lumi-sys-color--white: #ffffff;
+  --lumi-sys-color--outline: #9a9b9c;
+  --lumi-sys-color--stroke-default: #2d2f38;
+}
+
+:root {
+  --surface: var(--lumi-sys-color--surface, #0f0f0f);
+  --surface-dim: var(--lumi-sys-color--surface-dim, #141414);
+  --surface-bright: var(--lumi-sys-color--surface-bright, #1c1c1c);
+  --surface-container: var(--lumi-sys-color--surface-container, #141414);
+  --surface-container-high: var(--lumi-sys-color--surface-container-high, #1c1c1c);
+  --on-surface: var(--lumi-sys-color--on-surface, #e0e0e0);
+  --on-surface-variant: var(--lumi-sys-color--on-surface-variant, rgba(255, 255, 255, 0.55));
+  --primary: var(--lumi-sys-color--primary, #9dd2ff);
+  --accent: var(--lumi-sys-color--accent, #1f3b9b);
+  --accent-container: var(--lumi-sys-color--accent-container, #192967);
+  --accent-fixed: var(--lumi-sys-color--accent-fixed, #3186ff);
+  --outline: var(--lumi-sys-color--outline, #9a9b9c);
+  --stroke-default: var(--lumi-sys-color--stroke-default, #2d2f38);
+  --spacing-xs: 4px;
+  --spacing-s: 8px;
+  --spacing-m: 12px;
+  --spacing-l: 16px;
+  --r-s: 8px;
+  --r-m: 12px;
+  --r-l: 16px;
+  --r-full: 999px;
+  --ff-sans: 'Google Sans Flex', sans-serif;
+  --ff-mono: 'Google Sans Code', monospace;
+}
+
+html, body {
+  background: var(--body-bg, #0f0f0f) !important;
+  color: var(--on-surface) !important;
+  font-family: var(--ff-sans);
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.widget-container {
+  width: 100%;
+  max-width: 100%;
+  padding: var(--spacing-m);
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-m);
+}
+
+.widget-header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+  border-bottom: 1px solid var(--stroke-default);
+  padding-bottom: var(--spacing-s);
+}
+
+.widget-header h2 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--on-surface);
+}
+
+.widget-header p {
+  margin: 0;
+  font-size: 13px;
+  color: var(--on-surface-variant);
+}
+
+.stage-stepper {
+  display: flex;
+  gap: var(--spacing-xs);
+  overflow-x: auto;
+  padding-bottom: var(--spacing-xs);
+}
+
+.lumi-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 32px;
+  padding: 0 16px;
+  font-family: var(--ff-sans);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--on-surface);
+  background: var(--surface-dim);
+  border: 1px solid transparent;
+  border-radius: var(--r-full);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s, color 0.15s;
+}
+
+.lumi-chip:hover {
+  background: var(--surface-container-high);
+}
+
+.lumi-chip.is-active {
+  color: var(--accent-fixed);
+  background: var(--accent-container);
+  font-weight: 600;
+  border-color: var(--primary);
+}
+
+.viz-deck {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-m);
+}
+
+.diagram-card {
+  background: var(--surface-dim);
+  border-radius: var(--r-l);
+  padding: var(--spacing-m);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-s);
+  border: 1px solid var(--stroke-default);
+}
+
+.diagram-card-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.badge-pill {
+  font-family: var(--ff-mono);
+  font-size: 11px;
+  padding: 3px 10px;
+  border-radius: var(--r-full);
+  background: var(--accent-container);
+  color: var(--primary);
+  border: 1px solid var(--primary);
+  font-weight: 600;
+}
+
+.diagram-svg {
+  width: 100%;
+  height: auto;
+  display: block;
+  background: var(--surface);
+  border-radius: var(--r-m);
+  border: 1px solid var(--stroke-default);
+}
+
+.film-strip-container {
+  background: #111113;
+  border-radius: var(--r-m);
+  padding: var(--spacing-s) var(--spacing-m);
+  border: 1px solid var(--stroke-default);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  position: relative;
+}
+
+.film-sprockets {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  height: 12px;
+}
+
+.sprocket-hole {
+  width: 10px;
+  height: 8px;
+  background: var(--surface-dim);
+  border-radius: 2px;
+  opacity: 0.6;
+}
+
+.film-frame-border {
+  width: 100%;
+  max-width: 600px;
+  height: 150px;
+  background: #1a1a1c;
+  border: 2px solid #2d2d30;
+  border-radius: 4px;
+  display: flex;
+  position: relative;
+  overflow: hidden;
+  box-shadow: inset 0 0 20px rgba(0,0,0,0.8);
+}
+
+.film-slice {
+  flex: 1;
+  height: 100%;
+  border-right: 1px dashed rgba(255,255,255,0.08);
+  position: relative;
+  transition: background 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  padding-bottom: 6px;
+  cursor: pointer;
+}
+
+.film-slice:last-child {
+  border-right: none;
+}
+
+.film-slice.unexposed {
+  background: #08080a;
+  opacity: 0.7;
+}
+
+.film-slice.exposed {
+  background: linear-gradient(180deg, #2a2822 0%, #3d3a30 100%);
+  opacity: 1;
+}
+
+.film-slice.active-pass {
+  box-shadow: inset 0 0 14px rgba(157, 210, 255, 0.5);
+  background: linear-gradient(180deg, #20334a 0%, #152233 100%);
+}
+
+.narrative-card {
+  background: var(--surface-dim);
+  border-radius: var(--r-m);
+  padding: var(--spacing-m);
+  border-left: 4px solid var(--primary);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  border: 1px solid var(--stroke-default);
+}
+
+.narrative-title {
+  font-weight: 600;
+  color: var(--on-surface);
+  font-size: 15px;
+}
+
+.narrative-body {
+  color: var(--on-surface-variant);
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.readout-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: var(--spacing-s);
+}
+
+.readout-item {
+  background: var(--surface-dim);
+  border: 1px solid var(--stroke-default);
+  border-radius: var(--r-s);
+  padding: var(--spacing-xs) var(--spacing-s);
+  display: flex;
+  flex-direction: column;
+}
+
+.readout-label {
+  font-size: 11px;
+  font-family: var(--ff-mono);
+  color: var(--on-surface-variant);
+  text-transform: uppercase;
+}
+
+.readout-value {
+  font-size: 14px;
+  font-weight: 600;
+  font-family: var(--ff-mono);
+  color: var(--on-surface);
+  margin-top: 2px;
+}
+
+.control-deck {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-m);
+  padding: var(--spacing-m);
+  background: var(--surface-dim);
+  border-radius: var(--r-l);
+  border: 1px solid var(--stroke-default);
+}
+
+.control-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-m);
+  flex-wrap: wrap;
+}
+
+.lumi-slider {
+  appearance: none;
+  width: 100%;
+  height: 6px;
+  background: var(--stroke-default);
+  border-radius: var(--r-full);
+  outline: none;
+  cursor: pointer;
+}
+
+.lumi-slider::-webkit-slider-thumb {
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--primary);
+  cursor: pointer;
+  border: 2px solid var(--surface);
+}
+
+.lumi-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 36px;
+  padding: 6px 16px;
+  font-family: var(--ff-sans);
+  font-size: 13px;
+  font-weight: 500;
+  border-radius: var(--r-full);
+  cursor: pointer;
+  border: 1px solid var(--stroke-default);
+  background: var(--surface-bright);
+  color: var(--on-surface);
+  transition: background 0.15s;
+}
+
+.lumi-btn:hover {
+  background: var(--surface-container-high);
+}
+
+.lumi-btn--primary {
+  background: var(--accent-fixed);
+  color: #ffffff;
+  border-color: transparent;
+  font-weight: 600;
+}
+
+.lumi-btn--primary:hover {
+  background: #2570e0;
+}
+</style>
+</head>
+<body>
+  <div class="widget-container">
+    <!-- Header -->
+    <header class="widget-header">
+      <h2>The Playhouse (1921) — 9-Buster Matte Box Trick</h2>
+      <p>Interactive mechanical diagram of Buster Keaton & Elgin Lessley's multi-pass 35mm optical composite setup</p>
+    </header>
+
+    <!-- Stepper Navigation -->
+    <nav class="stage-stepper" id="stageStepper">
+      <button class="lumi-chip is-active" data-stage="1">1. Camera & Rig</button>
+      <button class="lumi-chip" data-stage="2">2. Pass 1 Exposure</button>
+      <button class="lumi-chip" data-stage="3">3. Capped Rewind</button>
+      <button class="lumi-chip" data-stage="4">4. Passes 2–8 Masking</button>
+      <button class="lumi-chip" data-stage="5">5. Final 9-Buster Blend</button>
+    </nav>
+
+    <!-- Main Deck -->
+    <div class="viz-deck">
+      <!-- Optical Path Diagram -->
+      <div class="diagram-card">
+        <div class="diagram-card-title">
+          <span>Top-Down Optical Light Path</span>
+          <span class="badge-pill" id="syncStatusBadge">Metronome 16 FPS Sync Locked</span>
+        </div>
+        
+        <svg class="diagram-svg" viewBox="0 0 640 250" id="opticalDiagram">
+          <defs>
+            <marker id="lumi-caret" viewBox="0 0 10 10" refX="7.5" refY="5" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="10" orient="auto">
+              <path d="M 3 1.2 L 7.5 5 L 3 8.8" fill="none" stroke="var(--on-surface)" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+            </marker>
+            <linearGradient id="rayGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="var(--primary)" stop-opacity="0.4"/>
+              <stop offset="100%" stop-color="var(--primary)" stop-opacity="0.05"/>
+            </linearGradient>
+          </defs>
+
+          <!-- Dynamic Stage Zones -->
+          <g id="dynamicStageZones"></g>
+
+          <!-- Matte Box Rig -->
+          <g id="matteBoxRig">
+            <rect x="155" y="90" width="330" height="28" rx="6" fill="var(--surface-dim)" stroke="var(--stroke-default)" stroke-width="1"/>
+            <text x="95" y="108" font-family="var(--ff-mono)" font-size="11" fill="var(--on-surface-variant)">Brass Matte Box</text>
+            <g id="dynamicMatteShutters"></g>
+          </g>
+
+          <!-- Optical Light Ray Beam -->
+          <polygon id="opticalRayBeam" points="0,0 0,0 0,0" fill="url(#rayGradient)" stroke="var(--primary)" stroke-width="1.2" stroke-dasharray="3 3"/>
+
+          <!-- Camera & Lens -->
+          <g transform="translate(265, 148)">
+            <rect x="15" y="20" width="90" height="50" rx="8" fill="var(--surface-bright)" stroke="var(--outline)" stroke-width="1.5"/>
+            <polygon points="45,0 75,0 80,20 40,20" fill="var(--surface-container-high)" stroke="var(--outline)" stroke-width="1.3"/>
+            <ellipse cx="60" cy="0" rx="15" ry="3" fill="var(--accent-container)" stroke="var(--primary)" stroke-width="1.3"/>
+            <line x1="25" y1="55" x2="95" y2="55" stroke="var(--primary)" stroke-width="2.5"/>
+            <text x="60" y="40" text-anchor="middle" font-family="var(--ff-sans)" font-size="11" fill="var(--on-surface)">35mm Camera</text>
+            <text x="60" y="62" text-anchor="middle" font-family="var(--ff-mono)" font-size="10" fill="var(--on-surface-variant)">Film Gate</text>
+            <!-- Hand Crank -->
+            <path d="M 105 35 L 122 35 L 122 50" fill="none" stroke="var(--on-surface)" stroke-width="2" stroke-linecap="round"/>
+            <circle cx="122" cy="50" r="4" fill="var(--primary)"/>
+          </g>
+
+          <!-- Metronome & HUD -->
+          <g transform="translate(510, 85)">
+            <rect x="0" y="0" width="115" height="115" rx="8" fill="var(--surface-dim)" stroke="var(--stroke-default)" stroke-width="1"/>
+            <text x="57" y="18" text-anchor="middle" font-family="var(--ff-mono)" font-size="10" fill="var(--on-surface-variant)">SYNC MECHANISM</text>
+            <polygon points="57,30 45,82 69,82" fill="var(--surface)" stroke="var(--outline)" stroke-width="1"/>
+            <line id="metronomeArm" x1="57" y1="80" x2="44" y2="38" stroke="var(--primary)" stroke-width="2" stroke-linecap="round"/>
+            <circle cx="44" cy="38" r="3" fill="var(--primary)"/>
+            <text x="57" y="98" text-anchor="middle" font-family="var(--ff-mono)" font-size="11" fill="var(--on-surface)">16 Beats/Sec</text>
+            <text id="hudRewindText" x="57" y="110" text-anchor="middle" font-family="var(--ff-mono)" font-size="10" fill="var(--on-surface-variant)">Crank: 240 f</text>
+          </g>
+        </svg>
+      </div>
+
+      <!-- 35mm Film Strip Viewer -->
+      <div class="film-strip-container">
+        <div class="film-sprockets">
+          <div class="sprocket-hole"></div><div class="sprocket-hole"></div><div class="sprocket-hole"></div>
+          <div class="sprocket-hole"></div><div class="sprocket-hole"></div><div class="sprocket-hole"></div>
+          <div class="sprocket-hole"></div><div class="sprocket-hole"></div><div class="sprocket-hole"></div>
+        </div>
+
+        <div class="film-frame-border" id="filmFrameContainer"></div>
+
+        <div class="film-sprockets">
+          <div class="sprocket-hole"></div><div class="sprocket-hole"></div><div class="sprocket-hole"></div>
+          <div class="sprocket-hole"></div><div class="sprocket-hole"></div><div class="sprocket-hole"></div>
+          <div class="sprocket-hole"></div><div class="sprocket-hole"></div><div class="sprocket-hole"></div>
+        </div>
+      </div>
+
+      <!-- Narrative Card -->
+      <div class="narrative-card">
+        <div class="narrative-title" id="narrativeTitle">Stage 1: Camera Setup & Precision Rigging</div>
+        <div class="narrative-body" id="narrativeBody">
+          To achieve nine distinct Buster Keatons performing simultaneously in <i>The Playhouse</i>, cinematographer Elgin Lessley bolted the 35mm camera solidly to the floor and installed a custom brass matte box with 9 vertical sliding shutters directly in front of the lens.
+        </div>
+      </div>
+
+      <!-- Metric Readouts -->
+      <div class="readout-grid">
+        <div class="readout-item">
+          <span class="readout-label">Active Pass</span>
+          <span class="readout-value" id="readoutPass">Pass 1 of 9 (Tambourine)</span>
+        </div>
+        <div class="readout-item">
+          <span class="readout-label">Frame Counter</span>
+          <span class="readout-value" id="readoutFrames">0 / 240 Frames</span>
+        </div>
+        <div class="readout-item">
+          <span class="readout-label">Camera Lens Status</span>
+          <span class="readout-value" id="readoutLens">Capped / Ready</span>
+        </div>
+        <div class="readout-item">
+          <span class="readout-label">Edge Diffraction</span>
+          <span class="readout-value" id="readoutEdge">1/9th Mask Alignment</span>
+        </div>
+      </div>
+
+      <!-- Control Deck -->
+      <div class="control-deck">
+        <div class="control-row">
+          <span style="font-size: 14px; font-weight: 500;">Active Shutter Slot (1 to 9):</span>
+          <span id="passSliderVal" style="font-family: var(--ff-mono); font-weight: 600; font-size: 15px;">1</span>
+        </div>
+        <div>
+          <input type="range" id="passSlider" class="lumi-slider" min="1" max="9" value="1">
+        </div>
+        <div class="control-row" style="justify-content: space-between; margin-top: 4px;">
+          <div style="display: flex; gap: 8px;">
+            <button class="lumi-btn" id="btnPrev">← Prev Stage</button>
+            <button class="lumi-btn" id="btnNext">Next Stage →</button>
+          </div>
+          <div>
+            <button class="lumi-btn lumi-btn--primary" id="btnAutoPlay">▶ Auto-Crank Passes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const STAGE_DATA = {
+      1: {
+        title: "Stage 1: Camera & Matte Box Rig Setup",
+        body: "The 35mm Bell & Howell camera is weighted with sandbags and bolted to the studio floor. A custom matte box with 9 precision vertical brass slides is positioned inches ahead of the lens. All 9 shutter slots remain closed until pass 1 begins.",
+        pass: 1,
+        lensStatus: "Capped / Ready",
+        frames: "0 / 240 Frames",
+        edge: "1/9th Mask Alignment",
+        isCapped: true
+      },
+      2: {
+        title: "Stage 2: Pass 1 First Exposure (Far Left Buster)",
+        body: "Slot #1 is opened. Banjo accompaniment sets an exact 16-beat tempo with a metronome. Buster dances and plays tambourine in Zone 1. Elgin Lessley hand-cranks exactly 240 frames (15 seconds) at 16 fps while only slice 1 of the film negative is exposed.",
+        pass: 1,
+        lensStatus: "Exposing Slot 1",
+        frames: "240 / 240 Frames",
+        edge: "Soft Edge Diffraction",
+        isCapped: false
+      },
+      3: {
+        title: "Stage 3: Capped Lens & Rewind to Frame 0",
+        body: "The camera lens is capped tight. Lessley turns the hand crank backward for exactly 240 turns, rewinding the unexposed 8/9ths of the film back to Frame 0 without exposing any light. Shutter #1 is closed.",
+        pass: 1,
+        lensStatus: "LENS CAPPED (Rewinding)",
+        frames: "Rewinding 240 → 0",
+        edge: "Latent Negative Intact",
+        isCapped: true
+      },
+      4: {
+        title: "Stage 4: Passes 2 through 8 Sequential Masking",
+        body: "Lessley opens Slot #2, Buster changes costume to play Banjo in Zone 2, and the camera cranks forward 240 frames to the metronome. The process repeats through passes 3 to 8.",
+        pass: 4,
+        lensStatus: "Exposing Slot 4",
+        frames: "Iterative 240 Fr/Pass",
+        edge: "0.5mm Optical Blend",
+        isCapped: false
+      },
+      5: {
+        title: "Stage 5: Pass 9 Final Composite & Seamless Blend",
+        body: "The 9th and final pass exposes the stagehand Buster on the far right. Because the matte box sits slightly ahead of the focal plane, optical edge diffraction softens the boundary between adjacent passes—seamlessly blending all 9 Busters onto one film strip!",
+        pass: 9,
+        lensStatus: "Complete (9 Exs. Done)",
+        frames: "240 / 240 (All Passes)",
+        edge: "100% Seamless Blend",
+        isCapped: false
+      }
+    };
+
+    const BUSTER_ROLES = [
+      { name: "Tambourine", zone: "Zone 1 (Far Left)" },
+      { name: "Banjo", zone: "Zone 2" },
+      { name: "Bones", zone: "Zone 3" },
+      { name: "Interlocutor", zone: "Zone 4 (Center)" },
+      { name: "Drums", zone: "Zone 5" },
+      { name: "Bass", zone: "Zone 6" },
+      { name: "Cello", zone: "Zone 7" },
+      { name: "Violin", zone: "Zone 8" },
+      { name: "Stagehand", zone: "Zone 9 (Far Right)" }
+    ];
+
+    let state = {
+      stage: 1,
+      pass: 1,
+      exposedPasses: new Set([1]),
+      isPlaying: false,
+      playInterval: null
+    };
+
+    function initFilmFrame() {
+      const container = document.getElementById('filmFrameContainer');
+      if (!container) return;
+      container.innerHTML = '';
+
+      for (let i = 1; i <= 9; i++) {
+        const slice = document.createElement('div');
+        slice.className = 'film-slice unexposed';
+        slice.id = `filmSlice_${i}`;
+
+        const busterSvg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+        busterSvg.setAttribute("viewBox", "0 0 40 80");
+        busterSvg.setAttribute("width", "32");
+        busterSvg.setAttribute("height", "64");
+        busterSvg.innerHTML = `
+          <ellipse cx="20" cy="18" rx="12" ry="3" fill="#e0e0e0" />
+          <rect x="12" y="12" width="16" height="6" fill="#111" rx="1" />
+          <circle cx="20" cy="24" r="6" fill="#d0d0d0" />
+          <path d="M 12 32 L 28 32 L 26 60 L 14 60 Z" fill="#222" stroke="#555" stroke-width="0.8"/>
+          <line x1="16" y1="60" x2="15" y2="74" stroke="#111" stroke-width="3" stroke-linecap="round"/>
+          <line x1="24" y1="60" x2="25" y2="74" stroke="#111" stroke-width="3" stroke-linecap="round"/>
+          <circle cx="20" cy="42" r="5" fill="var(--primary)" opacity="0.8"/>
+        `;
+        slice.appendChild(busterSvg);
+
+        const label = document.createElement('span');
+        label.style.fontSize = '10px';
+        label.style.fontFamily = 'var(--ff-mono)';
+        label.style.color = '#a0a0a5';
+        label.textContent = `B${i}`;
+        slice.appendChild(label);
+
+        slice.addEventListener('click', () => {
+          state.pass = i;
+          state.exposedPasses.add(i);
+          updateViz();
+        });
+
+        container.appendChild(slice);
+      }
+    }
+
+    function renderOpticalDiagram() {
+      const svg = document.getElementById('opticalDiagram');
+      if (!svg) return;
+
+      const activePass = state.pass;
+      const isCapped = STAGE_DATA[state.stage]?.isCapped && state.stage === 3;
+
+      // 1. Render 9 Stage Zones
+      const stageGroup = document.getElementById('dynamicStageZones');
+      if (stageGroup) {
+        stageGroup.innerHTML = '';
+        const startX = 25;
+        const zoneWidth = 63;
+        const zoneGap = 2;
+
+        for (let i = 1; i <= 9; i++) {
+          const x = startX + (i - 1) * (zoneWidth + zoneGap);
+          const isCurrent = i === activePass;
+
+          const rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+          rect.setAttribute("x", x);
+          rect.setAttribute("y", 15);
+          rect.setAttribute("width", zoneWidth);
+          rect.setAttribute("height", 28);
+          rect.setAttribute("rx", 4);
+          rect.setAttribute("fill", isCurrent ? "var(--accent-container)" : "var(--surface-dim)");
+          rect.setAttribute("stroke", isCurrent ? "var(--primary)" : "var(--outline)");
+          rect.setAttribute("stroke-width", isCurrent ? "1.5" : "1");
+
+          const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+          text.setAttribute("x", x + zoneWidth / 2);
+          text.setAttribute("y", 33);
+          text.setAttribute("text-anchor", "middle");
+          text.setAttribute("font-family", "var(--ff-mono)");
+          text.setAttribute("font-size", "11");
+          text.setAttribute("fill", isCurrent ? "var(--primary)" : "var(--on-surface-variant)");
+          text.textContent = `Buster ${i}`;
+
+          stageGroup.appendChild(rect);
+          stageGroup.appendChild(text);
+        }
+      }
+
+      // 2. Render Matte Box Shutters
+      const matteGroup = document.getElementById('dynamicMatteShutters');
+      if (matteGroup) {
+        matteGroup.innerHTML = '';
+        const matteStartX = 175;
+        const shutterWidth = 32;
+
+        for (let i = 1; i <= 9; i++) {
+          const x = matteStartX + (i - 1) * shutterWidth;
+          const isOpen = (i === activePass) && !isCapped;
+
+          const shutter = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+          shutter.setAttribute("x", x);
+          shutter.setAttribute("y", isOpen ? 84 : 92);
+          shutter.setAttribute("width", shutterWidth - 3);
+          shutter.setAttribute("height", isOpen ? 14 : 22);
+          shutter.setAttribute("rx", 2);
+          shutter.setAttribute("fill", isOpen ? "var(--accent-fixed)" : "var(--surface-container-high)");
+          shutter.setAttribute("stroke", isOpen ? "var(--primary)" : "var(--outline)");
+          shutter.setAttribute("stroke-width", "1");
+          shutter.style.cursor = "pointer";
+
+          shutter.addEventListener('click', () => {
+            state.pass = i;
+            state.exposedPasses.add(i);
+            updateViz();
+          });
+
+          matteGroup.appendChild(shutter);
+        }
+      }
+
+      // 3. Update Light Beam Ray
+      const ray = document.getElementById('opticalRayBeam');
+      if (ray) {
+        if (isCapped) {
+          ray.setAttribute("points", "0,0 0,0 0,0");
+        } else {
+          const startX = 25;
+          const zoneWidth = 63;
+          const zoneGap = 2;
+          const sourceX = startX + (activePass - 1) * (zoneWidth + zoneGap) + zoneWidth / 2;
+          const matteStartX = 175;
+          const shutterWidth = 32;
+          const shutterX = matteStartX + (activePass - 1) * shutterWidth + shutterWidth / 2;
+          const lensX = 320;
+          const lensY = 148;
+
+          ray.setAttribute("points", `${sourceX},43 ${shutterX},92 ${lensX},${lensY}`);
+        }
+      }
+
+      // 4. Metronome animation
+      const metronomeArm = document.getElementById('metronomeArm');
+      if (metronomeArm) {
+        const angle = state.isPlaying ? Math.sin(Date.now() / 150) * 18 : 0;
+        metronomeArm.setAttribute("transform", `rotate(${angle}, 57, 80)`);
+      }
+    }
+
+    function updateViz() {
+      const curStage = STAGE_DATA[state.stage] || STAGE_DATA[1];
+
+      const slider = document.getElementById('passSlider');
+      if (slider) slider.value = state.pass;
+      const sliderVal = document.getElementById('passSliderVal');
+      if (sliderVal) sliderVal.textContent = state.pass;
+
+      document.querySelectorAll('.stage-stepper .lumi-chip').forEach(chip => {
+        const st = parseInt(chip.dataset.stage, 10);
+        if (st === state.stage) {
+          chip.classList.add('is-active');
+        } else {
+          chip.classList.remove('is-active');
+        }
+      });
+
+      document.getElementById('narrativeTitle').textContent = curStage.title;
+      document.getElementById('narrativeBody').textContent = curStage.body;
+
+      document.getElementById('readoutPass').textContent = `Pass ${state.pass} of 9 (${BUSTER_ROLES[state.pass - 1].name})`;
+      document.getElementById('readoutFrames').textContent = curStage.frames;
+      document.getElementById('readoutLens').textContent = curStage.lensStatus;
+      document.getElementById('readoutEdge').textContent = curStage.edge;
+      document.getElementById('hudRewindText').textContent = state.stage === 3 ? "REWINDING" : `Crank: ${state.pass * 240} f`;
+
+      for (let i = 1; i <= 9; i++) {
+        const slice = document.getElementById(`filmSlice_${i}`);
+        if (!slice) continue;
+
+        const isExposed = state.exposedPasses.has(i) || (state.stage === 5) || (state.stage === 4 && i <= state.pass);
+        const isActive = i === state.pass;
+
+        slice.className = 'film-slice';
+        if (isActive) slice.classList.add('active-pass');
+        if (isExposed) {
+          slice.classList.add('exposed');
+        } else {
+          slice.classList.add('unexposed');
+        }
+      }
+
+      renderOpticalDiagram();
+    }
+
+    function initControls() {
+      document.querySelectorAll('.stage-stepper .lumi-chip').forEach(chip => {
+        chip.addEventListener('click', (e) => {
+          const st = parseInt(e.target.dataset.stage, 10);
+          state.stage = st;
+          if (st === 1) state.pass = 1;
+          if (st === 4) state.pass = 4;
+          if (st === 5) {
+            state.pass = 9;
+            for (let i = 1; i <= 9; i++) state.exposedPasses.add(i);
+          }
+          state.exposedPasses.add(state.pass);
+          updateViz();
+        });
+      });
+
+      const slider = document.getElementById('passSlider');
+      if (slider) {
+        slider.addEventListener('input', (e) => {
+          state.pass = parseInt(e.target.value, 10);
+          state.exposedPasses.add(state.pass);
+          updateViz();
+        });
+      }
+
+      document.getElementById('btnPrev').addEventListener('click', () => {
+        if (state.stage > 1) {
+          state.stage--;
+          state.pass = STAGE_DATA[state.stage].pass;
+          updateViz();
+        }
+      });
+
+      document.getElementById('btnNext').addEventListener('click', () => {
+        if (state.stage < 5) {
+          state.stage++;
+          state.pass = STAGE_DATA[state.stage].pass;
+          state.exposedPasses.add(state.pass);
+          updateViz();
+        }
+      });
+
+      const btnAutoPlay = document.getElementById('btnAutoPlay');
+      btnAutoPlay.addEventListener('click', () => {
+        if (state.isPlaying) {
+          clearInterval(state.playInterval);
+          state.isPlaying = false;
+          btnAutoPlay.textContent = "▶ Auto-Crank Passes";
+        } else {
+          state.isPlaying = true;
+          btnAutoPlay.textContent = "⏸ Pause Crank";
+          state.playInterval = setInterval(() => {
+            if (state.pass < 9) {
+              state.pass++;
+            } else {
+              state.pass = 1;
+            }
+            state.exposedPasses.add(state.pass);
+            updateViz();
+          }, 1200);
+        }
+        updateViz();
+      });
+    }
+
+    window.addEventListener('load', () => {
+      initFilmFrame();
+      initControls();
+      updateViz();
+      setInterval(() => {
+        if (state.isPlaying) renderOpticalDiagram();
+      }, 50);
+    });
+  </script>
+</body>
+</html>
